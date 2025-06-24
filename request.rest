@@ -30,6 +30,28 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/api/shopback/scan-consumer-qr
+Content-Type: application/json
+
+{
+  "posId": "110e6f8b-20a8-42fe-9577-8b48b3bd19d1",
+  "country": "MY",
+  "amount": 1234,
+  "currency": "MYR",
+  "consumerQrPayload": "00020101021243650016A000000615000101065204115802MY5925SHOPBACK PAYMENTS SDN BHD6011KUALA LUMPUR62070503***63041D41",
+  "partner": {
+    "merchantId": "M00001",
+    "merchantCategoryCode": 5411,
+    "merchantTradingName": "Test Merchant Sdn Bhd",
+    "merchantEntityId": "202401000001"
+  },
+  "orderMetadata": {
+    "terminalReference": "T00001"
+  }
+}
+
+###
+
 GET http://localhost:3000/api/shopback/order-status/8ec6f565-e143-4744-9964-632a5adb98ff
 
 ###

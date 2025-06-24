@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const moment = require("moment");
 require("dotenv").config();
 
 const ACCESS_KEY = process.env.SHOPBACK_ACCESS_KEY;
@@ -67,7 +68,8 @@ function generateShopBackSignature(
   body = {},
   contentType = "application/json",
 ) {
-  const date = new Date().toISOString();
+  // const date = moment().toISOString();
+  const date = moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS") + "Z";
   const sortedBody = alphabeticallySortBody(body);
 
   const req = {

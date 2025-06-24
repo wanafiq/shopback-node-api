@@ -56,5 +56,20 @@ GET http://localhost:3000/api/shopback/order-status/8ec6f565-e143-4744-9964-632a
 
 ###
 
+POST http://localhost:3000/api/shopback/order-refund/10733713-7bec-4ae9-bfe8-b9fc877663af
+Content-Type: application/json
+
+{
+    "amount": 1234,
+    "reason": "Customer requested refund",
+    "referenceId": "10733713-7bec-4ae9-bfe8-b9fc877663af",
+    "posId": "110e6f8b-20a8-42fe-9577-8b48b3bd19d1",
+    "refundMetadata": {
+        "terminalReference": "T00001"
+    }
+}
+
+###
+
 
 

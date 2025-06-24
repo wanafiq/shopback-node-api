@@ -282,8 +282,112 @@ const getOrderStatus = async (req, res) => {
   }
 };
 
+const orderRefund = async (req, res) => {
+  try {
+    const { referenceId } = req.params;
+    const {
+      amount,
+      reason,
+      referenceId: bodyReferenceId,
+      posId,
+      refundMetadata,
+    } = req.body;
+
+    // Validate required parameter and fields
+    if (!referenceId) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Missing required parameter: referenceId",
+      });
+    }
+
+    if (!amount) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Missing required field: amount",
+      });
+    }
+
+    // Prepare request body
+    const requestBody = {
+      amount,
+      referenceId: bodyReferenceId || referenceId,
+    };
+
+    // Add optional fields if provided
+    if (reason) {
+      requestBody.reason = reason;
+    }
+    if (posId) {
+      requestBody.posId = posId;
+    }
+    if (refundMetadata) {
+      requestBody.refundMetadata = refundMetadata;
+    }
+
+    // Generate HMAC signature with full URL path
+    const pathWithQuery = `${process.env.SHOPBACK_BASE_URL}/v1/instore/order/${referenceId}/refund`;
+    const signatureData = generateShopBackSignature(
+      "POST",
+      pathWithQuery,
+      requestBody,
+    );
+
+    // Prepare headers
+    const headers = {
+      Authorization: signatureData.authorizationHeader,
+      Date: signatureData.date,
+      "Content-Type": "application/json",
+    };
+
+    // Log the HTTP request
+    console.log("=== ShopBack API Request ===");
+    console.log("URL:", pathWithQuery);
+    console.log("Method: POST");
+    console.log("Headers:", JSON.stringify(headers, null, 2));
+    console.log("Body:", JSON.stringify(requestBody, null, 2));
+    console.log("============================\n");
+
+    const response = await fetch(pathWithQuery, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(requestBody),
+    });
+
+    const responseData = await response.json();
+
+    // Log the HTTP response
+    console.log("=== ShopBack API Response ===");
+    console.log("Status:", response.status);
+    console.log(
+      "Headers:",
+      JSON.stringify(Object.fromEntries(response.headers), null, 2),
+    );
+    console.log("Body:", JSON.stringify(responseData, null, 2));
+    console.log("=============================\n");
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        statusCode: response.status,
+        message: responseData.message || "ShopBack API Error",
+        traceId: responseData.traceId,
+      });
+    }
+
+    // Return successful response
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error("Error processing refund:", error);
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   createDynamicQrOrder,
   scanConsumerQr,
   getOrderStatus,
+  orderRefund,
 };

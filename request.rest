@@ -71,5 +71,14 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/api/shopback/cancel-order/10733713-7bec-4ae9-bfe8-b9fc877663af
+Content-Type: application/json
+
+{
+    "reason": "Order cancelled by merchant"
+}
+
+###
+
 
 

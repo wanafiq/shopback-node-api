@@ -109,6 +109,72 @@ const createDynamicQrOrder = async (req, res) => {
   }
 };
 
+const getOrderStatus = async (req, res) => {
+  try {
+    const { referenceId } = req.params;
+
+    // Validate required parameter
+    if (!referenceId) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Missing required parameter: referenceId",
+      });
+    }
+
+    // Generate HMAC signature with full URL path (GET request has empty body)
+    const pathWithQuery = `${process.env.SHOPBACK_BASE_URL}/v1/instore/order/${referenceId}`;
+    const signatureData = generateShopBackSignature("GET", pathWithQuery, {});
+
+    // Prepare headers
+    const headers = {
+      Authorization: signatureData.authorizationHeader,
+      Date: signatureData.date,
+    };
+
+    // Log the HTTP request
+    console.log("=== ShopBack API Request ===");
+    console.log("URL:", pathWithQuery);
+    console.log("Method: GET");
+    console.log("Headers:", JSON.stringify(headers, null, 2));
+    console.log("============================\n");
+
+    const response = await fetch(pathWithQuery, {
+      method: "GET",
+      headers: headers,
+    });
+
+    const responseData = await response.json();
+
+    // Log the HTTP response
+    console.log("=== ShopBack API Response ===");
+    console.log("Status:", response.status);
+    console.log(
+      "Headers:",
+      JSON.stringify(Object.fromEntries(response.headers), null, 2),
+    );
+    console.log("Body:", JSON.stringify(responseData, null, 2));
+    console.log("=============================\n");
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        statusCode: response.status,
+        message: responseData.message || "ShopBack API Error",
+        traceId: responseData.traceId,
+      });
+    }
+
+    // Return successful response
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error("Error getting order status:", error);
+    res.status(500).json({
+      statusCode: 500,
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   createDynamicQrOrder,
+  getOrderStatus,
 };

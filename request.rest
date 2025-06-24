@@ -30,5 +30,9 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:3000/api/shopback/order-status/8ec6f565-e143-4744-9964-632a5adb98ff
+
+###
+
 
 

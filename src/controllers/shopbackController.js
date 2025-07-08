@@ -1,6 +1,7 @@
 const { generateShopBackSignature } = require("../utils/shopback");
 const { v4: uuidv4 } = require("uuid");
 
+// User scan merchant's QR
 const createDynamicQrOrder = async (req, res) => {
   try {
     const {
@@ -109,6 +110,7 @@ const createDynamicQrOrder = async (req, res) => {
   }
 };
 
+// Merchant scan user's QR
 const scanConsumerQr = async (req, res) => {
   try {
     const {
@@ -237,6 +239,7 @@ const getOrderStatus = async (req, res) => {
     const headers = {
       Authorization: signatureData.authorizationHeader,
       Date: signatureData.date,
+      "Content-Type": "application/json",
     };
 
     // Log the HTTP request

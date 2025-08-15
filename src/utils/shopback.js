@@ -67,9 +67,12 @@ function generateShopBackSignature(
   pathWithQuery,
   body = {},
   contentType = "application/json",
+  date = null,
 ) {
-  // const date = moment().toISOString();
-  const date = moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS") + "Z";
+  if (date == null) {
+    date = moment().utc().format("YYYY-MM-DDTHH:mm:ss.SSS") + "Z";
+  }
+
   const sortedBody = alphabeticallySortBody(body);
 
   const req = {

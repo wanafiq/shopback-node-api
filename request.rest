@@ -14,18 +14,9 @@ Content-Type: application/json
 {
     "posId": "110e6f8b-20a8-42fe-9577-8b48b3bd19d1",
     "country": "MY",
-    "amount": 1234,
+    "amount": 4000,
     "currency": "MYR",
-    "qrType": "payload",
-    "partner": {
-        "merchantId": "M00001",
-        "merchantCategoryCode": 5411,
-        "merchantTradingName": "Test Merchant Sdn Bhd",
-        "merchantEntityId": "202401000001"
-    },
-    "orderMetadata": {
-        "terminalReference": "T00001"
-    }
+    "qrType": "payload"
 }
 
 ###
@@ -36,37 +27,24 @@ Content-Type: application/json
 {
   "posId": "110e6f8b-20a8-42fe-9577-8b48b3bd19d1",
   "country": "MY",
-  "amount": 1234,
+  "amount": 4000,
   "currency": "MYR",
-  "consumerQrPayload": "00020101021243650016A000000615000101065204115802MY5925SHOPBACK PAYMENTS SDN BHD6011KUALA LUMPUR62070503***63041D41",
-  "partner": {
-    "merchantId": "M00001",
-    "merchantCategoryCode": 5411,
-    "merchantTradingName": "Test Merchant Sdn Bhd",
-    "merchantEntityId": "202401000001"
-  },
-  "orderMetadata": {
-    "terminalReference": "T00001"
-  }
+  "consumerQrPayload": "77898366NXVU7XTS15791111"
 }
 
 ###
 
-GET http://localhost:3000/api/shopback/order-status/8ec6f565-e143-4744-9964-632a5adb98ff
+GET http://localhost:3000/api/shopback/order-status/202507081717296665
 
 ###
 
-POST http://localhost:3000/api/shopback/order-refund/10733713-7bec-4ae9-bfe8-b9fc877663af
+POST http://localhost:3000/api/shopback/order-refund/202507090231564103
 Content-Type: application/json
 
 {
-    "amount": 1234,
+    "amount": 2000,
     "reason": "Customer requested refund",
-    "referenceId": "10733713-7bec-4ae9-bfe8-b9fc877663af",
-    "posId": "110e6f8b-20a8-42fe-9577-8b48b3bd19d1",
-    "refundMetadata": {
-        "terminalReference": "T00001"
-    }
+    "referenceId": "10733713-7bec-4ae9-bfe8-b9fc877663af"
 }
 
 ###

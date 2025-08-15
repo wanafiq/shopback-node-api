@@ -36,6 +36,7 @@ const createDynamicQrOrder = async (req, res) => {
       currency,
       referenceId: finalReferenceId,
       qrType,
+      webhookUrl: `${process.env.NGROK_URL}${process.env.CALLBACK_PATH}`,
     };
 
     // Add optional fields if provided
@@ -107,6 +108,47 @@ const createDynamicQrOrder = async (req, res) => {
       statusCode: 500,
       message: "Internal server error",
     });
+  }
+};
+
+const paymentCallback = async (req, res) => {
+  try {
+    console.log("=== ShopBack API Callback ===");
+    console.log("Headers:", JSON.stringify(req.headers, null, 2));
+    console.log("Body:", JSON.stringify(req.body, null, 2));
+    console.log("============================\n");
+
+    const splitAuthorization = req.headers.authorization.split(" ");
+    const splitSignature = splitAuthorization[1].split(":");
+    const shopbackSignature = splitSignature[1];
+    if (!shopbackSignature) {
+      throw new Error("Missing shopback signature in the header");
+    }
+
+    const date = req.headers.date;
+    if (!date) {
+      throw new Error("Missing required date in the header");
+    }
+
+    const signatureData = generateShopBackSignature(
+      "POST",
+      `${process.env.NGROK_URL}${process.env.CALLBACK_PATH}`,
+      req.body,
+      "application/json",
+      date,
+    );
+
+    const generatedSignature = signatureData.signature;
+
+    if (shopbackSignature !== generatedSignature) {
+      console.log(`Shopback signature: ${shopbackSignature}`);
+      console.log(`Generated signature: ${generatedSignature}`);
+      throw new Error("Failed to verify signature");
+    } else {
+      console.log("Signature verified, can proceed to update trx");
+    }
+  } catch (error) {
+    throw new Error(`Unexpected error: ${error}`);
   }
 };
 
@@ -469,6 +511,7 @@ const cancelOrder = async (req, res) => {
 
 module.exports = {
   createDynamicQrOrder,
+  paymentCallback,
   scanConsumerQr,
   getOrderStatus,
   orderRefund,

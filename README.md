@@ -242,6 +242,37 @@ The project includes a `request.rest` file with pre-configured API calls. If you
 2. Click "Send Request" above any HTTP request
 3. View the response in the adjacent panel
 
+### Using Postman Collection
+
+The project includes a Postman collection file `Shopback Node.postman_collection.json` with pre-configured API requests for all endpoints.
+
+#### Import Instructions:
+
+1. **Open Postman**
+2. **Click "Import"** in the top left corner
+3. **Drag and drop** the `Shopback Node.postman_collection.json` file or click "Upload Files" and select it
+4. **Click "Import"** to add the collection to your workspace
+
+#### Collection Contents:
+
+The Postman collection includes ready-to-use requests for:
+- Create Dynamic QR Order
+- Scan Consumer QR
+- Get Order Status
+- Process Refund
+- Cancel Order
+
+Each request is pre-configured with:
+- Correct HTTP methods and endpoints
+- Sample request bodies with realistic test data
+- Proper Content-Type headers
+
+#### Usage Tips:
+
+- Update the request bodies with your actual test data
+- Ensure your local server is running on `http://localhost:3000`
+- Copy reference IDs from responses to use in subsequent requests (order status, refund, cancel)
+
 ### Monitoring and Debugging
 
 The application provides comprehensive logging for all API interactions:
@@ -302,19 +333,20 @@ ShopBack will send payment status updates to this endpoint, and you'll see the c
 ```
 shopback-node-api/
 ├── src/
-│   ├── index.js                    # Main Express application entry point
+│   ├── index.js                                # Main Express application entry point
 │   ├── controllers/
-│   │   └── shopbackController.js   # ShopBack API integration controllers
+│   │   └── shopbackController.js              # ShopBack API integration controllers
 │   ├── routes/
-│   │   └── shopback.js            # Express route definitions
+│   │   └── shopback.js                        # Express route definitions
 │   └── utils/
-│       └── shopback.js            # HMAC signature generation utilities
-├── tests/                         # Test files directory (empty)
-├── config/                        # Configuration files directory (empty)
-├── request.rest                   # HTTP client test requests
-├── package.json                   # Project dependencies and scripts
-├── README.md                      # Project documentation
-└── CLAUDE.md                      # Claude Code development guidance
+│       └── shopback.js                        # HMAC signature generation utilities
+├── tests/                                     # Test files directory (empty)
+├── config/                                    # Configuration files directory (empty)
+├── request.rest                               # HTTP client test requests
+├── Shopback Node.postman_collection.json      # Postman collection for API testing
+├── package.json                               # Project dependencies and scripts
+├── README.md                                  # Project documentation
+└── CLAUDE.md                                  # Claude Code development guidance
 ```
 
 ## Architecture

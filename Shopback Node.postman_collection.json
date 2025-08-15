@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "ec71f982-e473-4b24-a085-2452f2bbdc6a",
+		"name": "Shopback Node",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34465761"
+	},
+	"item": [
+		{
+			"name": "create dynamic order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"posId\": \"110e6f8b-20a8-42fe-9577-8b48b3bd19d1\",\n    \"country\": \"MY\",\n    \"amount\": 2000,\n    \"currency\": \"MYR\",\n    \"qrType\": \"payload\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/shopback/create-dynamic-qr-order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"shopback",
+						"create-dynamic-qr-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scan consumer qr",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"posId\": \"110e6f8b-20a8-42fe-9577-8b48b3bd19d1\",\n    \"country\": \"MY\",\n    \"amount\": 4500,\n    \"currency\": \"MYR\",\n    \"consumerQrPayload\": \"77898366NXVU7XTS15791111\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/shopback/scan-consumer-qr",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"shopback",
+						"scan-consumer-qr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order refund",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 10000,\n    \"reason\": \"Customer requested refund\",\n    \"referenceId\": \"bd1a198c-32fe-4664-b62b-f7773e64eb26\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/shopback/order-refund/bd1a198c-32fe-4664-b62b-f7773e64eabc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"shopback",
+						"order-refund",
+						"bd1a198c-32fe-4664-b62b-f7773e64eabc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reason\": \"Order cancelled by merchant\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/shopback/cancel-order/ca4a12b2-9e1f-4045-b753-e0fc1d2748a8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"shopback",
+						"cancel-order",
+						"ca4a12b2-9e1f-4045-b753-e0fc1d2748a8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get order status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/shopback/order-status/bd1a198c-32fe-4664-b62b-f7773e64eb26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"shopback",
+						"order-status",
+						"bd1a198c-32fe-4664-b62b-f7773e64eb26"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
